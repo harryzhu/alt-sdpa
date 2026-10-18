@@ -89,4 +89,13 @@ print(f"cpu结果误差: {np.max(np.abs(cpu_attention - mlx_attention)):.9f}")
 
   ```
 
+  4） 自行编译时，注意 `CMakeLists.txt` 中有一行
+
+  ```Bash
+  include_directories("/opt/anaconda3/lib/python3.13/site-packages/mlx/include")
+  ```
+  需要按照自己机器的实际路径修改， `pip install mlx ` 安装的 `MLX` 没有 `include` 这个文件夹， 需要`自编译安装`的 MLX 才有 include 这个文件夹。
+
+
+
 
