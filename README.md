@@ -97,5 +97,22 @@ print(f"cpu结果误差: {np.max(np.abs(cpu_attention - mlx_attention)):.9f}")
   需要按照自己机器的实际路径修改， `pip install mlx ` 安装的 `MLX` 没有 `include` 这个文件夹， 需要`自编译安装`的 MLX 才有 include 这个文件夹。
 
 
+## Performance
+
+使用 `alt-sdpa` 扩展（`nanobind`）, 将纯python版本调用的 sdpa 计算移到 C++ 中，性能有约 `3%～8% 的提升`：
+
+数据量越大，调用次数越多，在总体上的时间节省越多。
+
+`alt-sdpa`扩展版本，也是100%调用的 mlx 算子，逻辑与纯手写python完全一样，
+
+`唯一区别`就是把 `Python` 中的`注意力计算`移到了 `C++` 中运行，可以放心使用。
+
+![alt-sdpa扩展](doc/train_time_alt_sdpa_gpu.webp)
+
+
+在python中纯手写sdpa计算注意力函数，10个epoch的训练时间：
+
+![alt-sdpa扩展](doc/train_time_alt_sdpa_mlx.webp)
+
 
 
