@@ -9,13 +9,13 @@ supports `combined mask`(causal additive mask + positional encoding padding mask
 
 即`注意力计算函数`，内置的仅支持`additive mask`，不支持`组合mask`（即causal additive mask 和 padding mask),
 
-在 `Transformer` 中只能手动计算。
+遇到组合mask，计算注意力在 `Transformer` 中只能手动计算。
 
 ## Usage
 
-`alt_sdpa` 这个扩展，即为将手动计算固定化，提供 `3个函数`：
+`alt_sdpa` 这个扩展，就是为了将手动计算固定化，提供 `3个函数`，只需要简单参数提供`query`、`key`、`value`、`mask`即可：
 
-  - `alt_sdpa_gpu` : 正式训练时应`始终使用该函数`，属于在 C++ 中调用 mlx 内置函数，比纯python编写的alt_sdpa_mlx快约8%, 比alt_sdpa_cpu快约9倍；
+  - `alt_sdpa_gpu` : 正式训练时应 `始终使用该函数`，属于在 C++ 中调用 mlx 内置函数，比纯python编写的alt_sdpa_mlx快约8%, 比 `alt_sdpa_cpu` 快约8倍；
 
   - `alt_sdpa_mlx` : 纯python手动计算；
 
@@ -26,7 +26,7 @@ supports `combined mask`(causal additive mask + positional encoding padding mask
 
 ## 预编译版本
 
-直接下载 Release 中对应的版本，打开 example.py 文件，即可看到使用示例：
+直接下载 `Release` 中对应的预编译版本，打开 `example.py` 文件，即可看到使用示例：
 
 ```python
 import os
@@ -82,7 +82,7 @@ print(f"cpu结果误差: {np.max(np.abs(cpu_attention - mlx_attention)):.9f}")
 
   ```
 
-  3) `文件夹 alt_sdpa` 即为整个扩展包，编译完成之后，执行 `python example.py` 即可检查是否编译成功
+  3） `文件夹 alt_sdpa` 即为整个扩展包，编译完成之后，执行 `python example.py` 即可检查是否编译成功
 
   ```Bash
   python example.py
