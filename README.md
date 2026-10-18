@@ -89,7 +89,7 @@ print(f"cpu结果误差: {np.max(np.abs(cpu_attention - mlx_attention)):.9f}")
 
   ```
 
-  4） 自行编译时，注意 `CMakeLists.txt` 中有一行
+  4） 自行编译时(需要系统已经安装cmake： `brew install cmake`)，注意 `CMakeLists.txt` 中有一行
 
   ```Bash
   include_directories("/opt/anaconda3/lib/python3.13/site-packages/mlx/include")
