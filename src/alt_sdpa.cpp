@@ -269,7 +269,7 @@ NB_MODULE(alt_sdpa_ext, m) {
     nb::module_::import_("mlx.core");
 
     m.doc() = R"(alternative Scaled-Dot-Product-Attention function for Transformer's Decoder;
-    - Support combined mask (additive mask + positional encoding) on MLX;
+    - Support combined mask (additive mask + padding mask) on MLX;
     - because mlx's 'mx.fast.scaled_dot_product_attention' does not support combined mask, 
     that's why I made this.)";
     
