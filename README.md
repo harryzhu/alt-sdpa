@@ -24,6 +24,22 @@ supports `combined mask`(causal additive mask + positional encoding padding mask
 
 这三个函数，运算结果`完全等价`（注意 `mask 必须是组合mask`）。
 
+```python
+import numpy as np
+import mlx.core as mx
+from alt_sdpa import *
+
+attention = alt_sdpa_gpu(query, key, val, mask)
+
+# mlx.core 必须在 alt_sdpa 之前 import
+# query, key, val, mask 这4个参数必须为numpy矩阵类型，不能是 mlx 的 array 类型
+# mask 必须是组合类型mask
+# 如果仅仅是causal mask，你应该用mlx内置的 scaled_dot_product_attention
+# 上面的 attention 即为 注意力值，
+# 与内置的scaled_dot_product_attention逻辑一样，
+# 区别仅仅在于：弥补了内置函数不支持组合mask的缺憾
+```
+
 ## 预编译版本
 
 直接下载 `Release` 中对应的预编译版本，打开 `example.py` 文件，即可看到使用示例：
