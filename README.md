@@ -115,7 +115,12 @@ print(f"cpu结果误差: {np.max(np.abs(cpu_attention - mlx_attention)):.9f}")
 
 ## Performance
 
-使用 `alt-sdpa` 扩展（`nanobind`）, 将纯python版本调用的 sdpa 计算移到 C++ 中，性能有约 `3%～8% 的提升`：
+使用 `alt-sdpa` 扩展，做自注意力计算，时间大约为（与维度大小相关）：0.078031584 ms；
+
+如果在python中直接手写python完成，耗时：0.556370917 ms
+
+
+在实际training中，一个epoch（按1000个batch估算），使用 `alt-sdpa` 扩展（`nanobind`）, 将纯python版本调用的 sdpa 计算移到 C++ 中，性能有约 `3%～8% 的提升` （原本训练1个epoch需要59秒，用 alt-sdpa 扩展之后，要55秒）：
 
 数据量越大，调用次数越多，在总体上的时间节省越多。
 
