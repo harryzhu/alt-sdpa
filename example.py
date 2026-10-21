@@ -26,6 +26,25 @@ mlx_attention = alt_sdpa_mlx(query, key, val, mask)
 
 # 由于计算机的浮点数是有误差的，所以结果存在极小误差是正常的
 # 这个误差一般仅体现在小数点7位或8为之后
-print(f"将 mlx_attention 最终结果作为标准值：")
-print(f"gpu结果误差: {np.max(np.abs(gpu_attention - mlx_attention)):.9f}")
-print(f"cpu结果误差: {np.max(np.abs(cpu_attention - mlx_attention)):.9f}")
+print(f"将 alt_sdpa_mlx 最终结果作为标准值：")
+print(f"alt_sdpa_gpu与alt_sdpa_mlx的结果误差: {np.max(np.abs(gpu_attention - mlx_attention)):.9f}")
+print(f"alt_sdpa_cpu与alt_sdpa_mlx的结果误差: {np.max(np.abs(cpu_attention - mlx_attention)):.9f}")
+
+def bench_gpu_attention():
+	t1 = time.perf_counter()
+	for _ in range(1000):
+		gpu_attention = alt_sdpa_gpu(query, key, val, mask)
+	t2 = time.perf_counter()
+	print(f'alt_sdpa_gpu(使用该扩展)耗时: {(t2 - t1):.9f} ms')
+
+def bench_mlx_attention():
+	t1 = time.perf_counter()
+	for _ in range(1000):
+		mlx_attention = alt_sdpa_mlx(query, key, val, mask)
+	t2 = time.perf_counter()
+	print(f'alt_sdpa_mlx(手写python)耗时: {(t2 - t1):.9f} ms')
+
+print("---")
+bench_gpu_attention()
+time.sleep(1)
+bench_mlx_attention()
